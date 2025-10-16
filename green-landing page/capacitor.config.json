@@ -1,0 +1,32 @@
+{
+  "appId": "com.greenearth.nexus",
+  "appName": "GreenEarth Nexus",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "backgroundColor": "#1a1a1a",
+    "iconBackground": "#1a1a1a",
+    "icon": "src/assets/GreenCoin_ A Digital Revolution.png",
+    "splash": {
+      "image": "src/assets/GreenCoin_ A Digital Revolution.png",
+      "backgroundColor": "#1a1a1a",
+      "resizeMode": "contain"
+    }
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#1a1a1a",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#1a1a1a"
+    }
+  }
+}

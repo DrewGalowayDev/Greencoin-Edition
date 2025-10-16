@@ -1,0 +1,8 @@
+{
+  "name": "Greencoin Edition",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
+

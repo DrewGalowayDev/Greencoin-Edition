@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GreenCoin Farmer Dashboard Design System */
+
+@layer base {
+  :root {
+    /* GreenCoin Color Palette */
+    --primary: 158 69% 34%;              /* #1a936f */
+    --primary-dark: 155 81% 23%;         /* #0d6e50 */
+    --primary-light: 160 76% 49%;        /* #2ec294 */
+    --primary-foreground: 0 0% 100%;     /* white text on primary */
+    
+    --secondary: 131 51% 69%;            /* #88d498 */
+    --secondary-foreground: 0 0% 20%;    /* dark text on secondary */
+    
+    --accent: 100 25% 81%;               /* #c6dabf */
+    --accent-foreground: 0 0% 20%;       /* dark text on accent */
+    
+    /* Dark theme (default) */
+    --background: 198 52% 11%;           /* #0f2027 base */
+    --background-secondary: 201 36% 19%; /* #203a43 */
+    --background-tertiary: 138 28% 25%;  /* #2c5530 */
+    
+    --foreground: 0 0% 98%;              /* #fafafa almost white text */
+    --foreground-light: 100 25% 81%;     /* #c6dabf light text */
+    
+    /* Card backgrounds */
+    --card: 198 52% 14%;                 /* slightly lighter than background */
+    --card-foreground: 0 0% 98%;         /* white text on cards */
+    
+    /* UI Elements */
+    --border: 158 30% 25%;               /* darker green border */
+    --input: 198 52% 16%;                /* slightly lighter input background */
+    --ring: 158 69% 34%;                 /* primary focus ring */
+    
+    /* Muted elements */
+    --muted: 198 30% 20%;                /* muted background */
+    --muted-foreground: 0 0% 70%;        /* muted text */
+    
+    /* Destructive (error) colors */
+    --destructive: 0 84% 60%;            /* red */
+    --destructive-foreground: 0 0% 98%;  /* white text on red */
+    
+    /* Status colors */
+    --success: 134 61% 41%;              /* #28a745 */
+    --warning: 45 100% 51%;              /* #ffc107 */
+    --danger: 354 70% 54%;               /* #dc3545 */
+    --info: 188 78% 41%;                 /* #17a2b8 */
+    
+    /* Layout */
+    --sidebar-width: 260px;
+    --header-height: 80px;
+    --radius: 0.875rem;                  /* 14px */
+    
+    /* Sidebar */
+    --sidebar-background: 198 52% 12%;   /* slightly darker than background */
+    --sidebar-foreground: 0 0% 98%;      /* white text */
+    --sidebar-border: 158 30% 25%;       /* border color */
+    
+    /* Popover */
+    --popover: 198 52% 14%;              /* same as card */
+    --popover-foreground: 0 0% 98%;      /* white text */
+  }
+  
+  .light {
+    /* Light theme overrides */
+    --background: 210 17% 98%;           /* #f8f9fa */
+    --foreground: 0 0% 15%;              /* #262626 dark text */
+    --foreground-light: 220 9% 46%;      /* #6c757d gray text */
+    
+    --card: 0 0% 100%;                   /* white cards */
+    --card-foreground: 0 0% 15%;         /* dark text on cards */
+    
+    --border: 0 0% 88%;                  /* #e0e0e0 light border */
+    --input: 0 0% 100%;                  /* white input background */
+    
+    --muted: 210 17% 95%;                /* light muted background */
+    --muted-foreground: 0 0% 45%;        /* dark muted text */
+    
+    --primary-foreground: 0 0% 100%;     /* white text on primary */
+    --secondary-foreground: 0 0% 15%;    /* dark text on secondary */
+    --accent-foreground: 0 0% 15%;       /* dark text on accent */
+    --destructive-foreground: 0 0% 100%; /* white text on destructive */
+    
+    --sidebar-background: 0 0% 100%;     /* white sidebar */
+    --sidebar-foreground: 0 0% 15%;      /* dark text */
+    --sidebar-border: 0 0% 88%;          /* light border */
+    
+    --popover: 0 0% 100%;                /* white popover */
+    --popover-foreground: 0 0% 15%;      /* dark text */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Poppins', 'Segoe UI', Taurus, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background-secondary)) 50%, hsl(var(--background-tertiary)) 100%);
+    min-height: 100vh;
+  }
+
+  /* Form elements styling */
+  input, textarea, select {
+    @apply bg-input text-foreground placeholder:text-muted-foreground border-border;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Ensure dropdown menus have proper background and z-index */
+  [role="menu"], [role="listbox"], .dropdown-menu {
+    @apply bg-popover text-popover-foreground border border-border shadow-lg z-50;
+  }
+}
