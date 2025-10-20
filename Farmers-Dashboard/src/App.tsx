@@ -1,6 +1,7 @@
 import ProjectsIndex from "./pages/Projects/Index";
 import ProjectsNew from "./pages/Projects/New";
 import ProjectsVerify from "./pages/Projects/Verify";
+import { AdminDashboard } from "./pages/Admin";
 import Land from "./pages/Land";
 import CropsRotation from "./pages/CropsRotation";
 import Practices from "./pages/Practices";
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/projects" element={<ProtectedRoute><ProjectsIndex /></ProtectedRoute>} />
             <Route path="/projects/new" element={<ProtectedRoute><ProjectsNew /></ProtectedRoute>} />
             <Route path="/projects/verify" element={<ProtectedRoute><ProjectsVerify /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/land" element={<ProtectedRoute><Land /></ProtectedRoute>} />
             <Route path="/crops/rotation" element={<ProtectedRoute><CropsRotation /></ProtectedRoute>} />
             <Route path="/practices" element={<ProtectedRoute><Practices /></ProtectedRoute>} />

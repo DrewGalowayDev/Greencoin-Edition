@@ -13,7 +13,7 @@ const Sidebar = () => {
     {
       title: "CARBON PROJECTS", 
       items: [
-        { icon: "fas fa-seedling", label: "My Projects", badge: "3" },
+        { icon: "fas fa-seedling", label: "My Projects", badge: "1" },
         { icon: "fas fa-plus-circle", label: "Register New" },
         { icon: "fas fa-check-circle", label: "Verification" }
       ]
