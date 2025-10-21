@@ -22,34 +22,34 @@ import {
 
 const menuSections = [
   {
-    title: "Main",
+    title: "MAIN",
     items: [
       { icon: Home, label: "Overview", url: "/admin/dashboard", active: true }
     ]
   },
   {
-    title: "Farmer Management",
+    title: "FARMER MANAGEMENT",
     items: [
       { icon: Users, label: "All Farmers", url: "/admin/farmers", badge: "1" },
       { icon: FileText, label: "Applications", url: "/admin/applications" }
     ]
-  },  
+  },
   {
-    title: "Farm Operations",
+    title: "FARM OPERATIONS",
     items: [
       { icon: TreePine, label: "Land Parcels", url: "/admin/land-parcels" },
       { icon: Sprout, label: "Practices", url: "/admin/practices" }
     ]   
   },
   {
-    title: "Carbon Management",
+    title: "CARBON MANAGEMENT",
     items: [
       { icon: Clock, label: "Verification", url: "/admin/credit-forecast" },
       { icon: Coins, label: "Carbon Credits", url: "/admin/carbon-credits" }
     ]  
   },
   {
-    title: "Marketplace",
+    title: "MARKETPLACE",
     items: [
       { icon: FileText, label: "Issued Credits", url: "/admin/issued" },
       { icon: FileCheck, label: "Retired Credits", url: "/admin/retired" },
@@ -57,7 +57,7 @@ const menuSections = [
     ]
   },
   {
-    title: "Reports & Monitoring",
+    title: "REPORTS & MONITORING",
     items: [
       { icon: LineChart, label: "Analytics", url: "/admin/analytics" }
     ]
@@ -139,17 +139,17 @@ export const AdminSidebar: FC = () => {
             <div key={index} className="mb-3">
               <button
                 onClick={() => toggleSection(index)}
-                className="w-full px-4 py-3 mb-1 flex items-center justify-between text-sm capitalize tracking-wider text-zinc-600 dark:text-white/70 font-medium hover:bg-white/5 rounded-lg transition-colors duration-200"
+                className="w-full px-4 py-2 flex items-center justify-between text-xs uppercase tracking-wider text-zinc-600 dark:text-white/70 font-medium hover:bg-white/5 rounded-lg transition-colors duration-200"
               >
-                <span className="font-bold">{section.title}</span>
+                <span>{section.title}</span>
                 <ChevronDown className={cn(
                   "w-4 h-4 transition-transform duration-200",
                   openSections.includes(index) ? "transform rotate-180" : ""
                 )} />
               </button>
               <ul className={cn(
-                "space-y-1 overflow-hidden transition-all duration-200 pl-2",
-                openSections.includes(index) ? "max-h-96 opacity-100 mb-4" : "max-h-0 opacity-0"
+                "space-y-0.5 overflow-hidden transition-all duration-200",
+                openSections.includes(index) ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
               )}>
                 {section.items.map((item, itemIndex) => (
                   <li key={itemIndex}>
@@ -197,58 +197,49 @@ export const AdminSidebar: FC = () => {
           ))}
           
           {/* Settings & Sign Out at bottom */}
-          <div className="mt-6 border-t border-white/10 pt-4">
-            <div className="px-4 py-1 text-sm capitalize tracking-wider text-zinc-600 dark:text-white/70 font-bold mb-2">
-              Account
-            </div>
-            <ul className="space-y-1">
-              <li>
-                <NavLink to="/admin/settings" className={({ isActive }) =>
-                  cn(
-                    "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
-                    isCollapsed ? "justify-center px-2" : "gap-2 px-4",
-                    "py-1.5 text-left",
-                    isActive 
-                      ? "bg-white/10 border-l-secondary text-green-400 dark:text-success font-semibold" 
-                      : "border-l-transparent text-dark-80 hover:bg-zinc-700/10 hover:border-l-secondary hover:text-green-400 dark:text-white/90 dark:hover:text-success"
-                  )
-                }>
-                  <Settings className={cn("w-4 h-4", isCollapsed && "w-5 h-5")} />
-                  {!isCollapsed && <span className="flex-1 text-sm">Settings</span>}
-                  {isCollapsed && (
-                    <div className="absolute left-full ml-2 hidden group-hover:block">
-                      <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
-                        Settings
-                      </div>
-                    </div>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <button
-                  onClick={signOut}
-                  className={cn(
-                    "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
-                    isCollapsed ? "justify-center px-2" : "gap-2 px-4",
-                    "py-1.5 text-left",
-                    "border-l-transparent text-dark-80 hover:bg-destructive/10 hover:border-l-destructive hover:text-destructive dark:text-white/90"
-                  )}
-                >
-                  <LogOut className={cn("w-4 h-4", isCollapsed && "w-5 h-5")} />
-                  {!isCollapsed && <span className="flex-1 text-sm">Sign Out</span>}
-                  {isCollapsed && (
-                    <div className="absolute left-full ml-2 hidden group-hover:block">
-                      <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
-                        Sign Out
-                      </div>
-                    </div>
-                  )}
-                </button>
-              </li>
-            </ul>
-          </div>
+          <div className="mt-4">
+            <NavLink to="/admin/settings" className={({ isActive }) =>
+              cn(
+                "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
+                isCollapsed ? "justify-center px-2" : "gap-3 px-5",
+                "py-3 text-left",
+                isActive 
+                  ? "bg-white/10 border-l-secondary text-success font-semibold" 
+                  : "border-l-transparent text-white/90 hover:bg-white/10 hover:border-l-secondary hover:text-success"
+              )
+            }>
+              <Settings className={cn("w-5 h-5", isCollapsed && "w-6 h-6")} />
+              {!isCollapsed && <span className="flex-1">Settings</span>}
+              {isCollapsed && (
+                <div className="absolute left-full ml-2 hidden group-hover:block">
+                  <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
+                    Settings
+                  </div>
+                </div>
+              )}
+            </NavLink>
+            <button
+              onClick={signOut}
+              className={cn(
+                "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
+                isCollapsed ? "justify-center px-2" : "gap-3 px-5",
+                "py-3 text-left mt-2",
+                "border-l-transparent text-white/90 hover:bg-destructive/10 hover:border-l-destructive hover:text-destructive"
+              )}
+            >
+              <LogOut className={cn("w-5 h-5", isCollapsed && "w-6 h-6")} />
+              {!isCollapsed && <span className="flex-1">Sign Out</span>}
+              {isCollapsed && (
+                <div className="absolute left-full ml-2 hidden group-hover:block">
+                  <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
+                    Sign Out
+                  </div>
+                </div>
+              )}
+            </button>
           </div>
         </div>
+      </div>
     </>
   );
 };

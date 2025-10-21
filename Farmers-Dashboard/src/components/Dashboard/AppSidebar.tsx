@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import {
   Home,
   Sprout,
@@ -22,7 +22,8 @@ import {
   LogOut,
   Microchip,
   Menu,
-  X
+  X,
+  ChevronDown
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { NavLink } from "react-router-dom";
@@ -30,13 +31,13 @@ import { cn } from "@/lib/utils";
 
 const menuSections = [
   {
-    title: "MAIN",
+    title: "Main",
     items: [
       { icon: Home, label: "Dashboard", url: "/dashboard", active: true }
     ]
   },
   {
-    title: "CARBON PROJECTS",
+    title: "Carbon Projects",
     items: [
       { icon: Sprout, label: "My Projects", url: "/projects", badge: "3" },
       { icon: PlusCircle, label: "Register New", url: "/projects/new" },
@@ -44,15 +45,14 @@ const menuSections = [
     ]
   },
   {
-    title: "LAND MANAGEMENT",
+    title: "Land Management",
     items: [
       { icon: MapPin, label: "Land Parcels", url: "/land" },
-     // { icon: Crop, label: "Crop Rotation", url: "/crops/rotation" },
       { icon: Recycle, label: "Sustainable Practices", url: "/practices" }
     ]
   },
   {
-    title: "CARBON CREDITS",
+    title: "Carbon Credits",
     items: [
       { icon: Coins, label: "Credits Earned", url: "/credits" },
       { icon: ChartLine, label: "Future Forecast", url: "/credits/forecast" },
@@ -60,7 +60,7 @@ const menuSections = [
     ]
   },
   {
-    title: "MARKETPLACE",
+    title: "Marketplace",
     items: [
       { icon: DollarSign, label: "Sell Credits", url: "/market/sell" },
       { icon: Gavel, label: "Credit Auctions", url: "/market/auctions" },
@@ -68,7 +68,7 @@ const menuSections = [
     ]
   },
   {
-    title: "TECHNOLOGY",
+    title: "Technology",
     items: [
       { icon: Microchip, label: "IoT Sensors", url: "/tech/iot" },
       { icon: Book, label: "Farmer Resources", url: "/tech/resources" },
@@ -79,13 +79,19 @@ const menuSections = [
 
 const sidebarBase = "fixed left-0 top-0 h-[100dvh] w-64 bg-primary-dark dark:bg-gray-900 border-r border-green-700 z-30 overflow-y-auto transition-transform duration-300 ease-in-out flex flex-col";
 
-interface AppSidebarProps {
-  isMobileOpen: boolean;
-  setIsMobileOpen: (open: boolean) => void;
-}
-
-function AppSidebar({ isMobileOpen, setIsMobileOpen }: AppSidebarProps) {
+const AppSidebar: FC = () => {
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [openSections, setOpenSections] = useState<number[]>([]);
   const { signOut } = useAuth();
+
+  const toggleSection = (index: number) => {
+    setOpenSections(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+  };
 
   return (
     <>
@@ -147,25 +153,57 @@ function AppSidebar({ isMobileOpen, setIsMobileOpen }: AppSidebarProps) {
         <div className="flex-1 p-3 overflow-y-auto">
           {menuSections.map((section, index) => (
             <div key={index} className="mb-3">
-              <div className="px-4 py-1 text-xs uppercase tracking-wider text-white font-medium">
-                {section.title}
-              </div>
-              <ul className="space-y-0.5">
+              <button
+                onClick={() => toggleSection(index)}
+                className="w-full px-4 py-3 mb-1 flex items-center justify-between text-sm capitalize tracking-wider text-white/90 dark:text-white/70 font-medium hover:bg-white/5 rounded-lg transition-colors duration-200"
+              >
+                <span className="font-bold">{section.title}</span>
+                <ChevronDown className={cn(
+                  "w-4 h-4 transition-transform duration-200",
+                  openSections.includes(index) ? "transform rotate-180" : ""
+                )} />
+              </button>
+              <ul className={cn(
+                "space-y-1 overflow-hidden transition-all duration-200 pl-2",
+                openSections.includes(index) ? "max-h-96 opacity-100 mb-4" : "max-h-0 opacity-0"
+              )}>
                 {section.items.map((item, itemIndex) => (
                   <li key={itemIndex}>
-                    <NavLink to={item.url} className={({ isActive }) =>
-                      `w-full flex items-center gap-2 px-4 py-1.5 text-left transition-all duration-200 border-l-4 relative group rounded-lg ${
-                        isActive 
-                          ? 'bg-primary/90 dark:bg-gray-800 border-l-secondary text-white font-semibold' 
-                          : 'border-l-transparent text-white hover:bg-primary/80 dark:hover:bg-gray-800 hover:border-l-secondary'
-                      }`
-                    }>
-                      <item.icon className="w-4 h-4" />
-                      <span className="flex-1 text-sm">{item.label}</span>
-                      {item.badge && (
-                        <span className="bg-secondary text-primary-dark px-1.5 py-0.5 rounded-full text-xs font-semibold">
-                          {item.badge}
-                        </span>
+                    <NavLink 
+                      to={item.url} 
+                      className={({ isActive }) =>
+                        cn(
+                          "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
+                          isCollapsed ? "justify-center px-2" : "gap-2 px-4",
+                          "py-1.5 text-left",
+                          isActive 
+                            ? "bg-white/10 border-l-secondary text-green-400 dark:text-success font-semibold" 
+                            : "border-l-transparent text-white/90 hover:bg-white/10 hover:border-l-secondary hover:text-success"
+                        )
+                      }
+                    >
+                      <item.icon className={cn("w-4 h-4", isCollapsed && "w-5 h-5")} />
+                      {!isCollapsed && (
+                        <>
+                          <span className="flex-1 text-sm">{item.label}</span>
+                          {item.badge && (
+                            <span className="bg-secondary text-primary-dark px-1.5 py-0.5 rounded-full text-xs font-semibold">
+                              {item.badge}
+                            </span>
+                          )}
+                        </>
+                      )}
+                      {isCollapsed && (
+                        <div className="absolute left-full ml-2 hidden group-hover:block">
+                          <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
+                            {item.label}
+                            {item.badge && (
+                              <span className="ml-2 bg-secondary text-primary-dark px-1.5 py-0.5 rounded-full text-xs font-semibold">
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       )}
                     </NavLink>
                   </li>
@@ -174,29 +212,61 @@ function AppSidebar({ isMobileOpen, setIsMobileOpen }: AppSidebarProps) {
             </div>
           ))}
           {/* Settings & Sign Out at bottom */}
-          <div className="mt-4">
-            <NavLink to="/settings" className={({ isActive }) =>
-              `w-full flex items-center gap-3 px-5 py-3 text-left transition-all duration-200 border-l-4 relative group rounded-lg ${
-                isActive 
-                  ? 'bg-primary/90 dark:bg-gray-800 border-l-secondary text-white font-semibold' 
-                  : 'border-l-transparent text-white hover:bg-primary/80 dark:hover:bg-gray-800 hover:border-l-secondary'
-              }`
-            }>
-              <Settings className="w-5 h-5" />
-              <span className="flex-1">Settings</span>
-            </NavLink>
-            <button
-              onClick={signOut}
-              className="w-full flex items-center gap-3 px-5 py-3 text-left transition-all duration-200 border-l-4 border-l-transparent text-white hover:bg-destructive dark:hover:bg-destructive hover:border-l-destructive hover:text-white rounded-lg mt-2"
-            >
-              <LogOut className="w-5 h-5" />
-              <span className="flex-1">Sign Out</span>
-            </button>
+          <div className="mt-6 border-t border-white/10 pt-4">
+            <div className="px-4 py-1 text-sm capitalize tracking-wider text-white/90 dark:text-white/70 font-bold mb-2">
+              Account
+            </div>
+            <ul className="space-y-1">
+              <li>
+                <NavLink to="/settings" className={({ isActive }) =>
+                  cn(
+                    "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
+                    isCollapsed ? "justify-center px-2" : "gap-2 px-4",
+                    "py-1.5 text-left",
+                    isActive 
+                      ? "bg-white/10 border-l-secondary text-green-400 dark:text-success font-semibold" 
+                      : "border-l-transparent text-white/90 hover:bg-white/10 hover:border-l-secondary hover:text-success"
+                  )
+                }>
+                  <Settings className={cn("w-4 h-4", isCollapsed && "w-5 h-5")} />
+                  {!isCollapsed && <span className="flex-1 text-sm">Settings</span>}
+                  {isCollapsed && (
+                    <div className="absolute left-full ml-2 hidden group-hover:block">
+                      <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
+                        Settings
+                      </div>
+                    </div>
+                  )}
+                </NavLink>
+              </li>
+              <li>
+                <button
+                  onClick={signOut}
+                  className={cn(
+                    "w-full flex items-center relative group rounded-lg transition-all duration-200 border-l-4",
+                    isCollapsed ? "justify-center px-2" : "gap-2 px-4",
+                    "py-1.5 text-left",
+                    "border-l-transparent text-white/90 hover:bg-destructive/10 hover:border-l-destructive hover:text-destructive"
+                  )}
+                >
+                  <LogOut className={cn("w-4 h-4", isCollapsed && "w-5 h-5")} />
+                  {!isCollapsed && <span className="flex-1 text-sm">Sign Out</span>}
+                  {isCollapsed && (
+                    <div className="absolute left-full ml-2 hidden group-hover:block">
+                      <div className="bg-black/80 text-white text-sm rounded-md px-2 py-1 whitespace-nowrap">
+                        Sign Out
+                      </div>
+                    </div>
+                  )}
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </>
   );
 }
+
 
 export default AppSidebar;
