@@ -1,4 +1,5 @@
 import { HamburgerIcon } from './HamburgerIcon';
+import logoImage from '../assets/GreenCoin_ A Digital Revolution.png';
 
 export const Header = () => {
   return (
@@ -6,7 +7,7 @@ export const Header = () => {
       <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
         <div className="flex items-center">
           <img
-            src={require("../assets/GreenCoin_ A Digital Revolution.png")}
+            src={logoImage}
             alt="GreenEarth Nexus Logo"
             className="h-10 w-auto object-contain"
           />
