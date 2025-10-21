@@ -1,5 +1,5 @@
 import { HamburgerIcon } from './HamburgerIcon';
-import logoImage from '../assets/GreenCoin_ A Digital Revolution.png';
+import logoImage from "../assets/GreenCoin_ A Digital Revolution.png";
 
 export const Header = () => {
   return (
